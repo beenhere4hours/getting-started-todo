@@ -8,6 +8,12 @@
     <!--[if IE]>
       <script src="style/ie.js"></script>
     <![endif]-->
+    
+    <!-- Auth0Lock script -->
+    <script src="//cdn.auth0.com/js/lock-7.5.min.js"></script>
+
+    <!-- Setting the right viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   </head>
   <body>
     <section id="todoapp">
@@ -21,6 +27,7 @@
       <footer id="footer">
 	<span id="todo-count"></span>
         <div id="sync-wrapper">
+          <div id="sync-login"><input id="btn-login" type="button" value="Login" /> Click the login button and start syncing</div>
           <div id="sync-success">Currently syncing</div>
           <div id="sync-error">There was a problem syncing</div>
         </div>

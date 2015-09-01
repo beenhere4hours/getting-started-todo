@@ -411,6 +411,10 @@ label[for='toggle-all'] {
     display:none;
 }
 
+#sync-login {
+  display: block;
+}
+
 #sync-error, #sync-success {
   display: none;
 }
@@ -421,4 +425,12 @@ label[for='toggle-all'] {
 
 [data-sync-state=error] #sync-error {
   display: block;
+}
+
+[data-sync-state=syncing] #sync-login {
+  display: none;
+}
+
+[data-sync-state=error] #sync-login {
+  display: none;
 }

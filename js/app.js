@@ -5,13 +5,17 @@
   var ENTER_KEY = 13;
   var newTodoDom = document.getElementById('new-todo');
   var syncDom = document.getElementById('sync-wrapper');
+  var loginDom = document.getElementById('btn-login');
 
   // EDITING STARTS HERE (you dont need to edit anything above this line)
-
+  // Look Auth0 ClientID and Domain from your Auth0 app settings
+  var lock = new Auth0Lock('CLIENT_ID', 'YOUR_AUTH0_DOMAIN.auth0.com');
+  // Replace with your CouchDB URL. Use https if you are testing outside localhost.
+  var remoteCouchURL = "http://127.0.0.1:5984/todos";
   var db = new PouchDB('todos');
 
   // Replace with remote instance, this just replicates to another local instance.
-  var remoteCouch = 'todos_remote';
+  var remoteCouch = false;
 
   db.changes({
     since: 'now',
@@ -152,6 +156,21 @@
 
   function addEventListeners() {
     newTodoDom.addEventListener('keypress', newTodoKeyPressHandler, false);
+    
+    loginDom.addEventListener('click', function() {
+      // 'roles' is custom scope that is added by auth0 rule
+      lock.show({ authParams: { scope: 'openid roles' } }, function(err, profile, id_token) {
+        if (err) {
+          console.log("There was an error in login", err);
+          return;
+        }
+
+        remoteCouch = new PouchDB(remoteCouchURL, {headers: {'Authorization': 'Bearer ' + id_token}});
+        sync();
+      });
+      
+      return false;
+    });
   }
 
   addEventListeners();
